@@ -98,10 +98,19 @@ function DeepRead:fetchFirst(topic)
         turns = {},
         words = FIRST_WORDS,
     }
+    -- Given a plain string, Trapper shows a small box in the bottom-left corner. Given a
+    -- displayed InfoMessage, it cancels on the message's dismissal and leaves closing to us.
+    local thinking = InfoMessage:new{
+        text = _("Thinking about where to begin…") .. "\n\n" .. _("Tap to cancel."),
+    }
+    UIManager:show(thinking)
+    UIManager:forceRePaint()
     local completed, result, err = Trapper:dismissableRunInSubprocess(function()
         return Api.next(self.server, request)
-    end, _("Thinking…"))
-    if not completed then return end -- the reader dismissed the message
+    end, thinking)
+    if not completed then return end -- the reader dismissed the message, which closed it
+    thinking.dismiss_callback = nil -- closing would otherwise report a cancel to Trapper
+    UIManager:close(thinking)
 
     if result then
         UIManager:show(DeepReadViewer:new{

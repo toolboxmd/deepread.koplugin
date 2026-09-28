@@ -1,8 +1,8 @@
 # Deep Read for KOReader
 
 Pick a topic and read one continuous article about it. The article is written as you
-read: when you reach the second-to-last page, the next part is requested in the
-background and added to the end, so the pages keep coming.
+read: when two or fewer pages remain, the next part is requested in the background
+and added to the end, so the pages keep coming.
 
 This is a KOReader client for the Deep Read service at <https://deepread.toolbox.md>.
 
@@ -16,7 +16,7 @@ This is a KOReader client for the Deep Read service at <https://deepread.toolbox
 ## Use
 
 1. Type a topic (up to 200 characters) and tap **Read**. KOReader turns on Wi-Fi if needed.
-2. A "Thinking…" message shows while the first part is written. Tap it to cancel.
+2. A "Thinking about where to begin…" message shows while the first part is written. Tap it to cancel.
 3. Turn pages by tapping the right or left side, swiping, or with the page keys.
    Close the article with the × in the title bar or the Back key.
 4. If you reach the last page before the next part arrives, you see

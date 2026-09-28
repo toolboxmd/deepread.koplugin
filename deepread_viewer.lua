@@ -1,5 +1,5 @@
--- Full-screen paged reader for one Deep Read article. When the reader reaches the
--- second-to-last page it asks for the next chunk in the background and appends it.
+-- Full-screen paged reader for one Deep Read article. When two or fewer pages remain it
+-- asks for the next chunk in the background and appends it.
 
 local Blitbuffer = require("ffi/blitbuffer")
 local ConfirmBox = require("ui/widget/confirmbox")
@@ -21,7 +21,8 @@ local Screen = Device.screen
 local Api = require("deepread_api")
 local DeepReadMarkdown = require("deepread_markdown")
 
-local NEXT_WORDS = 350
+local NEXT_WORDS = 500
+local PREFETCH_PAGES_LEFT = 2 -- fetch once this many pages or fewer remain after the current one
 local MAX_TURNS = 79 -- the service refuses an 80th turn
 
 local CSS = [[
@@ -97,8 +98,14 @@ function DeepReadViewer:init()
             },
         },
     }
-    -- A short first chunk may already leave us on the second-to-last page.
+    -- A first chunk of three pages or fewer needs the next one straight away.
     UIManager:nextTick(function() self:onPageChanged() end)
+end
+
+-- UIManager:show() without a refresh type paints us but leaves the screen as it was.
+function DeepReadViewer:onShow()
+    UIManager:setDirty(self, function() return "full", self.dimen end)
+    return true
 end
 
 function DeepReadViewer:articleHtml()
@@ -117,7 +124,7 @@ end
 function DeepReadViewer:onPageChanged()
     if not self.scroll_widget or self.closed then return end
     local page, count = self:pages()
-    if page >= count - 1 then
+    if count - page <= PREFETCH_PAGES_LEFT then
         self:fetchNext()
     end
     if page >= count and self.fetching then
