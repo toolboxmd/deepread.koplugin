@@ -1,0 +1,807 @@
+event: thinking
+data: {}
+
+event: delta
+data: {"text":"#"}
+
+event: delta
+data: {"text":" How"}
+
+event: delta
+data: {"text":" L"}
+
+event: delta
+data: {"text":"ighth"}
+
+event: delta
+data: {"text":"ouses"}
+
+event: delta
+data: {"text":" Work"}
+
+event: delta
+data: {"text":"\n\n"}
+
+event: delta
+data: {"text":"A"}
+
+event: delta
+data: {"text":" lighthouse"}
+
+event: delta
+data: {"text":" is"}
+
+event: delta
+data: {"text":" a"}
+
+event: delta
+data: {"text":" fixed"}
+
+event: delta
+data: {"text":" navig"}
+
+event: delta
+data: {"text":"ational"}
+
+event: delta
+data: {"text":" aid"}
+
+event: delta
+data: {"text":" that"}
+
+event: delta
+data: {"text":" sends"}
+
+event: delta
+data: {"text":" a"}
+
+event: delta
+data: {"text":" controlled"}
+
+event: delta
+data: {"text":" beam"}
+
+event: delta
+data: {"text":" of"}
+
+event: delta
+data: {"text":" light"}
+
+event: delta
+data: {"text":" across"}
+
+event: delta
+data: {"text":" the"}
+
+event: delta
+data: {"text":" sea"}
+
+event: delta
+data: {"text":" so"}
+
+event: delta
+data: {"text":" marin"}
+
+event: delta
+data: {"text":"ers"}
+
+event: delta
+data: {"text":" can"}
+
+event: delta
+data: {"text":" find"}
+
+event: delta
+data: {"text":" a"}
+
+event: delta
+data: {"text":" harbor"}
+
+event: delta
+data: {"text":","}
+
+event: delta
+data: {"text":" avoid"}
+
+event: delta
+data: {"text":" a"}
+
+event: delta
+data: {"text":" reef"}
+
+event: delta
+data: {"text":","}
+
+event: delta
+data: {"text":" or"}
+
+event: delta
+data: {"text":" confirm"}
+
+event: delta
+data: {"text":" their"}
+
+event: delta
+data: {"text":" position"}
+
+event: delta
+data: {"text":" when"}
+
+event: delta
+data: {"text":" landmarks"}
+
+event: delta
+data: {"text":" disappear"}
+
+event: delta
+data: {"text":"."}
+
+event: delta
+data: {"text":" The"}
+
+event: delta
+data: {"text":" essential"}
+
+event: delta
+data: {"text":" idea"}
+
+event: delta
+data: {"text":" is"}
+
+event: delta
+data: {"text":" older"}
+
+event: delta
+data: {"text":" than"}
+
+event: delta
+data: {"text":" electricity"}
+
+event: delta
+data: {"text":":"}
+
+event: delta
+data: {"text":" place"}
+
+event: delta
+data: {"text":" a"}
+
+event: delta
+data: {"text":" bright"}
+
+event: delta
+data: {"text":" source"}
+
+event: delta
+data: {"text":" high"}
+
+event: delta
+data: {"text":" enough"}
+
+event: delta
+data: {"text":" that"}
+
+event: delta
+data: {"text":" the"}
+
+event: delta
+data: {"text":" horizon"}
+
+event: delta
+data: {"text":" does"}
+
+event: delta
+data: {"text":" not"}
+
+event: delta
+data: {"text":" hide"}
+
+event: delta
+data: {"text":" it"}
+
+event: delta
+data: {"text":","}
+
+event: delta
+data: {"text":" and"}
+
+event: delta
+data: {"text":" make"}
+
+event: delta
+data: {"text":" the"}
+
+event: delta
+data: {"text":" light"}
+
+event: delta
+data: {"text":" distinctive"}
+
+event: delta
+data: {"text":" so"}
+
+event: delta
+data: {"text":" one"}
+
+event: delta
+data: {"text":" tower"}
+
+event: delta
+data: {"text":" cannot"}
+
+event: delta
+data: {"text":" be"}
+
+event: delta
+data: {"text":" mistaken"}
+
+event: delta
+data: {"text":" for"}
+
+event: delta
+data: {"text":" another"}
+
+event: delta
+data: {"text":".\n\n"}
+
+event: delta
+data: {"text":"Height"}
+
+event: delta
+data: {"text":" matters"}
+
+event: delta
+data: {"text":" because"}
+
+event: delta
+data: {"text":" the"}
+
+event: delta
+data: {"text":" Earth"}
+
+event: delta
+data: {"text":" curves"}
+
+event: delta
+data: {"text":"."}
+
+event: delta
+data: {"text":" A"}
+
+event: delta
+data: {"text":" lamp"}
+
+event: delta
+data: {"text":" at"}
+
+event: delta
+data: {"text":" sea"}
+
+event: delta
+data: {"text":" level"}
+
+event: delta
+data: {"text":" is"}
+
+event: delta
+data: {"text":" visible"}
+
+event: delta
+data: {"text":" only"}
+
+event: delta
+data: {"text":" a"}
+
+event: delta
+data: {"text":" short"}
+
+event: delta
+data: {"text":" distance"}
+
+event: delta
+data: {"text":";"}
+
+event: delta
+data: {"text":" raised"}
+
+event: delta
+data: {"text":" on"}
+
+event: delta
+data: {"text":" a"}
+
+event: delta
+data: {"text":" cliff"}
+
+event: delta
+data: {"text":" or"}
+
+event: delta
+data: {"text":" a"}
+
+event: delta
+data: {"text":" tower"}
+
+event: delta
+data: {"text":","}
+
+event: delta
+data: {"text":" the"}
+
+event: delta
+data: {"text":" same"}
+
+event: delta
+data: {"text":" lamp"}
+
+event: delta
+data: {"text":" clears"}
+
+event: delta
+data: {"text":" the"}
+
+event: delta
+data: {"text":" curvature"}
+
+event: delta
+data: {"text":" and"}
+
+event: delta
+data: {"text":" can"}
+
+event: delta
+data: {"text":" be"}
+
+event: delta
+data: {"text":" seen"}
+
+event: delta
+data: {"text":" from"}
+
+event: delta
+data: {"text":" many"}
+
+event: delta
+data: {"text":" miles"}
+
+event: delta
+data: {"text":" away"}
+
+event: delta
+data: {"text":" in"}
+
+event: delta
+data: {"text":" clear"}
+
+event: delta
+data: {"text":" air"}
+
+event: delta
+data: {"text":"."}
+
+event: delta
+data: {"text":" The"}
+
+event: delta
+data: {"text":" distance"}
+
+event: delta
+data: {"text":" is"}
+
+event: delta
+data: {"text":" set"}
+
+event: delta
+data: {"text":" by"}
+
+event: delta
+data: {"text":" geometry"}
+
+event: delta
+data: {"text":" more"}
+
+event: delta
+data: {"text":" than"}
+
+event: delta
+data: {"text":" by"}
+
+event: delta
+data: {"text":" raw"}
+
+event: delta
+data: {"text":" brightness"}
+
+event: delta
+data: {"text":"."}
+
+event: delta
+data: {"text":" A"}
+
+event: delta
+data: {"text":" light"}
+
+event: delta
+data: {"text":" "}
+
+event: delta
+data: {"text":"100"}
+
+event: delta
+data: {"text":" feet"}
+
+event: delta
+data: {"text":" above"}
+
+event: delta
+data: {"text":" the"}
+
+event: delta
+data: {"text":" water"}
+
+event: delta
+data: {"text":" is"}
+
+event: delta
+data: {"text":" visible"}
+
+event: delta
+data: {"text":","}
+
+event: delta
+data: {"text":" in"}
+
+event: delta
+data: {"text":" principle"}
+
+event: delta
+data: {"text":","}
+
+event: delta
+data: {"text":" from"}
+
+event: delta
+data: {"text":" roughly"}
+
+event: delta
+data: {"text":" a"}
+
+event: delta
+data: {"text":" dozen"}
+
+event: delta
+data: {"text":" naut"}
+
+event: delta
+data: {"text":"ical"}
+
+event: delta
+data: {"text":" miles"}
+
+event: delta
+data: {"text":" to"}
+
+event: delta
+data: {"text":" an"}
+
+event: delta
+data: {"text":" observer"}
+
+event: delta
+data: {"text":" near"}
+
+event: delta
+data: {"text":" sea"}
+
+event: delta
+data: {"text":" level"}
+
+event: delta
+data: {"text":","}
+
+event: delta
+data: {"text":" and"}
+
+event: delta
+data: {"text":" farther"}
+
+event: delta
+data: {"text":" if"}
+
+event: delta
+data: {"text":" the"}
+
+event: delta
+data: {"text":" observer"}
+
+event: delta
+data: {"text":" is"}
+
+event: delta
+data: {"text":" also"}
+
+event: delta
+data: {"text":" elevated"}
+
+event: delta
+data: {"text":","}
+
+event: delta
+data: {"text":" as"}
+
+event: delta
+data: {"text":" on"}
+
+event: delta
+data: {"text":" a"}
+
+event: delta
+data: {"text":" ship"}
+
+event: delta
+data: {"text":"’s"}
+
+event: delta
+data: {"text":" bridge"}
+
+event: delta
+data: {"text":".\n\n"}
+
+event: delta
+data: {"text":"What"}
+
+event: delta
+data: {"text":" turns"}
+
+event: delta
+data: {"text":" that"}
+
+event: delta
+data: {"text":" elevated"}
+
+event: delta
+data: {"text":" lamp"}
+
+event: delta
+data: {"text":" into"}
+
+event: delta
+data: {"text":" a"}
+
+event: delta
+data: {"text":" useful"}
+
+event: delta
+data: {"text":" signal"}
+
+event: delta
+data: {"text":" is"}
+
+event: delta
+data: {"text":" the"}
+
+event: delta
+data: {"text":" optical"}
+
+event: delta
+data: {"text":" system"}
+
+event: delta
+data: {"text":" around"}
+
+event: delta
+data: {"text":" it"}
+
+event: delta
+data: {"text":"."}
+
+event: delta
+data: {"text":" Early"}
+
+event: delta
+data: {"text":" towers"}
+
+event: delta
+data: {"text":" burned"}
+
+event: delta
+data: {"text":" wood"}
+
+event: delta
+data: {"text":","}
+
+event: delta
+data: {"text":" coal"}
+
+event: delta
+data: {"text":","}
+
+event: delta
+data: {"text":" or"}
+
+event: delta
+data: {"text":" oil"}
+
+event: delta
+data: {"text":" in"}
+
+event: delta
+data: {"text":" an"}
+
+event: delta
+data: {"text":" open"}
+
+event: delta
+data: {"text":" b"}
+
+event: delta
+data: {"text":"raz"}
+
+event: delta
+data: {"text":"ier"}
+
+event: delta
+data: {"text":"."}
+
+event: delta
+data: {"text":" The"}
+
+event: delta
+data: {"text":" light"}
+
+event: delta
+data: {"text":" scattered"}
+
+event: delta
+data: {"text":" in"}
+
+event: delta
+data: {"text":" every"}
+
+event: delta
+data: {"text":" direction"}
+
+event: delta
+data: {"text":","}
+
+event: delta
+data: {"text":" including"}
+
+event: delta
+data: {"text":" upward"}
+
+event: delta
+data: {"text":" into"}
+
+event: delta
+data: {"text":" the"}
+
+event: delta
+data: {"text":" sky"}
+
+event: delta
+data: {"text":" and"}
+
+event: delta
+data: {"text":" backward"}
+
+event: delta
+data: {"text":" onto"}
+
+event: delta
+data: {"text":" the"}
+
+event: delta
+data: {"text":" land"}
+
+event: delta
+data: {"text":","}
+
+event: delta
+data: {"text":" so"}
+
+event: delta
+data: {"text":" only"}
+
+event: delta
+data: {"text":" a"}
+
+event: delta
+data: {"text":" fraction"}
+
+event: delta
+data: {"text":" reached"}
+
+event: delta
+data: {"text":" a"}
+
+event: delta
+data: {"text":" ship"}
+
+event: delta
+data: {"text":"."}
+
+event: delta
+data: {"text":" The"}
+
+event: delta
+data: {"text":" modern"}
+
+event: delta
+data: {"text":" lighthouse"}
+
+event: delta
+data: {"text":" concentrates"}
+
+event: delta
+data: {"text":" that"}
+
+event: delta
+data: {"text":" wasted"}
+
+event: delta
+data: {"text":" light"}
+
+event: delta
+data: {"text":" into"}
+
+event: delta
+data: {"text":" a"}
+
+event: delta
+data: {"text":" narrow"}
+
+event: delta
+data: {"text":" horizontal"}
+
+event: delta
+data: {"text":" beam"}
+
+event: delta
+data: {"text":" and"}
+
+event: delta
+data: {"text":" then"}
+
+event: delta
+data: {"text":" sweeps"}
+
+event: delta
+data: {"text":" or"}
+
+event: delta
+data: {"text":" flashes"}
+
+event: delta
+data: {"text":" the"}
+
+event: delta
+data: {"text":" beam"}
+
+event: delta
+data: {"text":" in"}
+
+event: delta
+data: {"text":" a"}
+
+event: delta
+data: {"text":" pattern"}
+
+event: delta
+data: {"text":" unique"}
+
+event: delta
+data: {"text":" to"}
+
+event: delta
+data: {"text":" that"}
+
+event: delta
+data: {"text":" station"}
+
+event: delta
+data: {"text":"."}
+
+event: done
+data: {"asked":200,"words":233,"cost":0.0028864,"cached":1152,"prompt":1621}
+
