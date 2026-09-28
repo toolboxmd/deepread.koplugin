@@ -39,7 +39,6 @@ local DeepReadViewer = InputContainer:extend{
     article_id = nil,
     server = nil,
     turns = nil, -- { {text = ..., asked = ...}, ... } exactly as the service expects them back
-    on_out_of_credit = nil,
     covers_fullscreen = true,
 }
 
