@@ -21,9 +21,10 @@ Install it from the [App Store plugin](https://github.com/omer-faruq/appstore.ko
 
 ## Use
 
-1. Open the `Deep Read` book (or **Tools → Deep Read**). Type a topic (up to 200
-   characters) and tap **Read**. KOReader turns on Wi-Fi if needed.
-2. A "Thinking about where to begin…" message shows while the first part is written.
+1. Open the `Deep Read` book and tap "What do you want to understand?" or **Read**
+   (or use **Tools → Deep Read**). Type a topic (up to 200 characters) and tap **Read**.
+   KOReader turns on Wi-Fi if needed.
+2. A slowly turning orb with "Thinking about where to begin…" shows while the first part is written.
    Tap it to cancel.
 3. The article opens as its own book, with its own title cover, in the `Deep Read` folder. Read it like any book.
    New parts are added in place without moving your page.
