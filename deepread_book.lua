@@ -90,7 +90,14 @@ local function writeEpub(path, meta, body_html, cover_png)
         os.remove(tmp)
         return false
     end
-    return os.rename(tmp, path)
+    if not os.rename(tmp, path) then return false end
+    -- CoverBrowser caches a book's cover and title once and never checks the file again,
+    -- so drop its entry; it re-reads the book the next time the folder is shown.
+    local BookInfoManager = package.loaded["bookinfomanager"]
+    if BookInfoManager then
+        pcall(BookInfoManager.deleteBookInfo, BookInfoManager, path)
+    end
+    return true
 end
 
 function Book.folder(home)
@@ -104,7 +111,7 @@ end
 -- The launcher page mirrors the website's start page. Its links go to the website, so a
 -- reader without the plugin still lands somewhere useful; main.lua intercepts them.
 Book.LAUNCHER_LINK = "https://deepread.toolbox.md/"
-local LAUNCHER_VERSION = "2" -- bump to rewrite existing launchers with a new page
+local LAUNCHER_VERSION = "3" -- bump to rewrite existing launchers with a new page
 local LAUNCHER_CSS = [[
 .start { margin-top: 5em; text-align: center; }
 h1 { font-size: 2.6em; font-weight: bold; margin: 0; text-align: center; }
