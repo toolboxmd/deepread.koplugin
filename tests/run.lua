@@ -73,12 +73,14 @@ check("two inline spans", DeepReadMarkdown.stripMath("\\(a\\) and \\(b\\)") == "
 check("leaves other backslashes", DeepReadMarkdown.stripMath("C:\\path") == "C:\\path")
 
 if md_path then
-    local html = DeepReadMarkdown.toHtml("# Title\n\nSome *text* with \\( x^2 \\).")
+    local html = DeepReadMarkdown.toXhtml("# Title\n\nSome *text* with \\( x^2 \\).")
     check("renders heading", html:find("<h1>Title</h1>", 1, true), html)
     check("renders emphasis", html:find("<em>text</em>", 1, true), html)
     check("math shown as plain text", html:find("x^2", 1, true) and not html:find("\\(", 1, true), html)
-    html = DeepReadMarkdown.toHtml("if x<y & y>z")
+    html = DeepReadMarkdown.toXhtml("if x<y & y>z")
     check("escapes < and &", html:find("x&lt;y &amp; y>z", 1, true), html)
+    html = DeepReadMarkdown.toXhtml("one\n\n---\n\ntwo")
+    check("closes void elements", html:find("<hr/>", 1, true) and not html:find("<hr>", 1, true), html)
 else
     print("skip Markdown rendering (no md.lua path given)")
 end

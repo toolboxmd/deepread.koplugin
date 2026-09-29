@@ -1,4 +1,4 @@
--- Article Markdown to HTML with KOReader's bundled renderer.
+-- Article Markdown to XHTML with KOReader's bundled renderer.
 
 local Markdown = require("apps/filemanager/lib/md")
 
@@ -11,15 +11,17 @@ function M.stripMath(text)
     return text
 end
 
-function M.toHtml(text)
+-- XHTML for the article's EPUB.
+function M.toXhtml(text)
     -- md.lua passes raw text through, so "x<y" would open a tag. Escaping before
     -- rendering is safe because md.lua never escapes anything itself.
     text = M.stripMath(text or ""):gsub("&", "&amp;"):gsub("<", "&lt;")
     local ok, html = pcall(Markdown.renderString, text, { tag = "div" })
-    if ok and type(html) == "string" then
-        return html
+    if not ok or type(html) ~= "string" then
+        return "<pre>" .. text .. "</pre>"
     end
-    return "<pre>" .. text .. "</pre>"
+    -- md.lua leaves void elements open, which XML does not allow.
+    return (html:gsub("<(hr)>", "<%1/>"):gsub("<(img [^>]-)/?>", "<%1/>"))
 end
 
 return M

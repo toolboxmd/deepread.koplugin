@@ -1,8 +1,9 @@
 # Deep Read for KOReader
 
-Pick a topic and read one continuous article about it. The article is written as you
-read: when two or fewer pages remain, the next part is requested in the background
-and added to the end, so the pages keep coming.
+Pick a topic and read one continuous article about it. Each article is a real book that
+KOReader's own reader opens, so your fonts, margins, dictionary, highlights and progress
+all work as usual. The book keeps growing ahead of you: when three or fewer pages remain,
+the next part is written in the background and added to the end.
 
 This is a KOReader client for the Deep Read service at <https://deepread.toolbox.md>.
 
@@ -10,19 +11,24 @@ This is a KOReader client for the Deep Read service at <https://deepread.toolbox
 
 1. Copy the `deepread.koplugin` folder into KOReader's `plugins/` folder
    (for example `koreader/plugins/deepread.koplugin`).
-2. Restart KOReader.
-3. Open the menu, then **Tools → Deep Read**.
+2. Restart KOReader. A `Deep Read` folder with a `Deep Read` book appears in your home
+   folder.
 
 ## Use
 
-1. Type a topic (up to 200 characters) and tap **Read**. KOReader turns on Wi-Fi if needed.
-2. A "Thinking about where to begin…" message shows while the first part is written. Tap it to cancel.
-3. Turn pages by tapping the right or left side, swiping, or with the page keys.
-   Close the article with the × in the title bar or the Back key.
-4. If you reach the last page before the next part arrives, you see
+1. Open the `Deep Read` book (or **Tools → Deep Read**). Type a topic (up to 200
+   characters) and tap **Read**. KOReader turns on Wi-Fi if needed.
+2. A "Thinking about where to begin…" message shows while the first part is written.
+   Tap it to cancel.
+3. The article opens as its own book in the `Deep Read` folder. Read it like any book.
+   New parts are added in place without moving your page.
+4. If you ever reach the end before the next part arrives, you see
    "Writing what comes next…" until it does.
+5. To continue an article later, open its book again.
 
-Articles are not saved; closing the viewer ends the article.
+Each article keeps its state in hidden files next to it (`.<title>.epub.deepread.lua`
+and KOReader's `.old` backup of it). Deleting the book and those files deletes the
+article.
 
 ## How it talks to the service
 
