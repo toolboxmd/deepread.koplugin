@@ -122,8 +122,10 @@ function DeepRead:onReaderReady()
         return true
     end
     if (self.state.built or 0) < #self.state.turns then
-        -- A chunk arrived while the book was closed or busy.
-        UIManager:nextTick(function() self:rebuild() end)
+        -- A chunk arrived while the book was closed or busy. Rebuild on the first page
+        -- turn, not now: other modules still have startup work queued against this
+        -- document (v2025.04's statistics crashes if it is reloaded under them).
+        self.rebuild_pending = self.ui:getCurrentPage()
     else
         self:checkAhead(self.ui:getCurrentPage())
     end
@@ -132,7 +134,8 @@ end
 function DeepRead:onPageUpdate(page)
     if not self.state then return end
     if self.rebuild_pending then
-        self:rebuild()
+        -- The page the rebuild was deferred on; startup also sends PageUpdate for it.
+        if page ~= self.rebuild_pending then self:rebuild() end
     else
         self:checkAhead(page)
     end
@@ -200,7 +203,7 @@ function DeepRead.onChunk(path, result, err)
     if waiting or UIManager:getTopmostVisibleWidget() == article.ui then
         article:rebuild()
     else
-        article.rebuild_pending = true
+        article.rebuild_pending = article.ui:getCurrentPage()
     end
 end
 
