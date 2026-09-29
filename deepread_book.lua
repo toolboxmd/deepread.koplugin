@@ -71,12 +71,12 @@ local function writeEpub(path, meta, body_html, cover_png)
         { "OEBPS/content.xhtml", string.format([[
 <?xml version="1.0" encoding="utf-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head><title>%s</title></head>
+<head><title>%s</title>%s</head>
 <body>
 %s
 </body>
 </html>
-]], title, body_html) },
+]], title, meta.css and ("<style>" .. meta.css .. "</style>") or "", body_html) },
     }
     if cover_png then
         table.insert(entries, { "OEBPS/cover.png", cover_png })
@@ -90,7 +90,14 @@ local function writeEpub(path, meta, body_html, cover_png)
         os.remove(tmp)
         return false
     end
-    return os.rename(tmp, path)
+    if not os.rename(tmp, path) then return false end
+    -- CoverBrowser caches a book's cover and title once and never checks the file again,
+    -- so drop its entry; it re-reads the book the next time the folder is shown.
+    local BookInfoManager = package.loaded["bookinfomanager"]
+    if BookInfoManager then
+        pcall(BookInfoManager.deleteBookInfo, BookInfoManager, path)
+    end
+    return true
 end
 
 function Book.folder(home)
@@ -101,11 +108,40 @@ function Book.isLauncher(path)
     return path:sub(-#(Book.FOLDER .. "/" .. Book.LAUNCHER)) == Book.FOLDER .. "/" .. Book.LAUNCHER
 end
 
--- Creates <home>/Deep Read/Deep Read.epub unless it is already there.
-function Book.ensureLauncher(home, cover_path)
+-- The launcher page mirrors the website's start page. Its links go to the website, so a
+-- reader without the plugin still lands somewhere useful; main.lua intercepts them.
+Book.LAUNCHER_LINK = "https://deepread.toolbox.md/"
+local LAUNCHER_VERSION = "3" -- bump to rewrite existing launchers with a new page
+local LAUNCHER_CSS = [[
+.start { margin-top: 5em; text-align: center; }
+h1 { font-size: 2.6em; font-weight: bold; margin: 0; text-align: center; }
+p { text-indent: 0; }
+.tagline { font-style: italic; color: #555555; margin: 0.8em 0 2.2em 0; text-align: center; }
+a { color: inherit; text-decoration: none; }
+.field { border: 1px solid #555555; padding: 0.8em 1em; margin: 0 0 0.6em 0; text-align: left; color: #666666; }
+.read { border: 1px solid #000000; padding: 0.7em 1em; margin: 0 auto; width: 5em; text-align: center; font-weight: bold; }
+]]
+
+local function markerPath(folder)
+    return folder .. "/." .. Book.LAUNCHER .. ".version"
+end
+
+-- False for a launcher written by an older version of the plugin.
+function Book.launcherIsCurrent(home)
+    local f = io.open(markerPath(Book.folder(home)), "rb")
+    local version = f and f:read("*a")
+    if f then f:close() end
+    return version == LAUNCHER_VERSION
+end
+
+-- Creates <home>/Deep Read/Deep Read.epub, and rewrites an older launcher when
+-- may_rewrite is set (never while the launcher could be open in the reader).
+function Book.ensureLauncher(home, cover_path, may_rewrite)
     local folder = Book.folder(home)
     local path = folder .. "/" .. Book.LAUNCHER
-    if lfs.attributes(path, "mode") == "file" then return path end
+    if lfs.attributes(path, "mode") == "file" and (not may_rewrite or Book.launcherIsCurrent(home)) then
+        return path
+    end
     if lfs.attributes(folder, "mode") ~= "directory" and not lfs.mkdir(folder) then return end
     local cover
     local f = io.open(cover_path, "rb")
@@ -113,12 +149,20 @@ function Book.ensureLauncher(home, cover_path)
         cover = f:read("*a")
         f:close()
     end
-    writeEpub(path, { title = "Deep Read", id = "deepread-launcher" }, [[
+    local link = Book.LAUNCHER_LINK
+    if writeEpub(path, { title = "Deep Read", id = "deepread-launcher", css = LAUNCHER_CSS }, [[
+<div class="start">
 <h1>Deep Read</h1>
-<p>One topic, one continuous article written as you read.</p>
-<p>Opening this book asks for a topic. Deep Read then writes an article about it as its
-own book in this folder, and keeps writing ahead of you as you turn the pages.</p>
-<p>To continue an article later, open its book from this folder.</p>]], cover)
+<p class="tagline">One topic. As deep as you care to read.</p>
+<p class="field"><a href="]] .. link .. [[#topic">What do you want to understand?</a></p>
+<p class="read"><a href="]] .. link .. [[#read">Read</a></p>
+</div>]], cover) then
+        f = io.open(markerPath(folder), "wb")
+        if f then
+            f:write(LAUNCHER_VERSION)
+            f:close()
+        end
+    end
     return path
 end
 

@@ -25,6 +25,7 @@ local _ = require("gettext")
 -- while KOReader loads this file.
 local Api = require("deepread_api")
 local Book = require("deepread_book")
+local Orb = require("deepread_orb")
 local has_config, config = pcall(require, "deepread_configuration")
 if not has_config or type(config) ~= "table" then config = {} end
 
@@ -89,7 +90,7 @@ function DeepRead:init()
     self.server = config.server or DEFAULT_SERVER
     -- Plugins start before the file browser lists the folder, so a fresh install shows
     -- the launcher straight away.
-    self.launcher = Book.ensureLauncher(homeFolder(), self.path .. "/deepread_cover.png")
+    self.launcher = Book.ensureLauncher(homeFolder(), self.path .. "/deepread_cover.png", not self.ui.document)
     self.ui.menu:registerToMainMenu(self)
 end
 
@@ -104,7 +105,24 @@ end
 function DeepRead:onReaderReady()
     local path = self.ui.document.file
     if Book.isLauncher(path) then
-        UIManager:nextTick(function() self:askTopic() end)
+        -- The page's field and Read button link to the website; open the topic dialog
+        -- instead. Only this ReaderUI's link module is changed, and it dies with it.
+        local link_module = self.ui.link
+        local open_link = link_module.onGoToExternalLink
+        link_module.onGoToExternalLink = function(module, url)
+            if url:sub(1, #Book.LAUNCHER_LINK) == Book.LAUNCHER_LINK then
+                self:askTopic()
+                return true
+            end
+            return open_link(module, url)
+        end
+        -- The launcher is a single page: a forward tap is not the end of a book.
+        self.ui.status.onEndOfBook = function() return true end
+        -- An older launcher page has no links, and it cannot be rewritten while open, so
+        -- keep its old behaviour until the file browser rewrites it.
+        if not Book.launcherIsCurrent(homeFolder()) then
+            UIManager:nextTick(function() self:askTopic() end)
+        end
         return
     end
     self.state = Book.loadState(path)
@@ -231,7 +249,7 @@ function DeepRead:onArticleEnd()
     end
     self:fetchNext()
     if fetching[self.book] and not waiting then
-        waiting = InfoMessage:new{
+        waiting = Orb:new{
             text = _("Writing what comes next…"),
             dismiss_callback = function() waiting = nil end,
         }
@@ -244,7 +262,7 @@ function DeepRead:askTopic()
     dialog = InputDialog:new{
         title = _("Deep Read"),
         input = self.last_topic,
-        input_hint = _("What would you like to read about?"),
+        input_hint = _("What do you want to understand?"),
         buttons = {{
             {
                 text = _("Cancel"),
@@ -283,18 +301,20 @@ function DeepRead:fetchFirst(topic)
     }
     local request = { id = state.id, topic = topic, turns = {}, words = FIRST_WORDS }
     -- Given a plain string, Trapper shows a small box in the bottom-left corner. Given a
-    -- displayed InfoMessage, it cancels on the message's dismissal and leaves closing to us.
-    local thinking = InfoMessage:new{
-        text = _("Thinking about where to begin…") .. "\n\n" .. _("Tap to cancel."),
+    -- displayed widget with a dismiss_callback, it cancels on dismissal and leaves closing
+    -- to us.
+    local thinking = Orb:new{
+        text = _("Thinking about where to begin…"),
+        hint = _("Tap to cancel."),
     }
     UIManager:show(thinking)
     UIManager:forceRePaint()
     local completed, result, err = Trapper:dismissableRunInSubprocess(function()
         return Api.next(self.server, request)
     end, thinking)
-    if not completed then return end -- the reader dismissed the message, which closed it
-    thinking.dismiss_callback = nil -- closing would otherwise report a cancel to Trapper
+    -- Not completed: the reader tapped the orb, or the subprocess never started.
     UIManager:close(thinking)
+    if not completed then return end
 
     if result then
         state.turns[1] = { text = result.text, asked = result.asked }
