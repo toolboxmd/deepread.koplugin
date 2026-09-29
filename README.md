@@ -11,6 +11,9 @@ This is a KOReader client for the Deep Read service at <https://deepread.toolbox
 
 Works with KOReader v2025.04 and later (tested on v2025.04 and v2026.07.1).
 
+Install it from the [App Store plugin](https://github.com/omer-faruq/appstore.koplugin)
+(search for Deep Read), or by hand:
+
 1. Copy the `deepread.koplugin` folder into KOReader's `plugins/` folder
    (for example `koreader/plugins/deepread.koplugin`).
 2. Restart KOReader. A `Deep Read` folder with a `Deep Read` book appears in your home
@@ -54,3 +57,7 @@ luajit tests/run.lua /path/to/koreader/frontend/apps/filemanager/lib/md.lua
 ```
 
 The Markdown path argument is optional; without it the HTML rendering test is skipped.
+
+## Licence
+
+MIT. See [LICENSE](LICENSE). The service is at [toolboxmd/deepread](https://github.com/toolboxmd/deepread).
