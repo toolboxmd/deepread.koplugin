@@ -25,7 +25,7 @@ Install it from the [App Store plugin](https://github.com/omer-faruq/appstore.ko
    characters) and tap **Read**. KOReader turns on Wi-Fi if needed.
 2. A "Thinking about where to begin…" message shows while the first part is written.
    Tap it to cancel.
-3. The article opens as its own book in the `Deep Read` folder. Read it like any book.
+3. The article opens as its own book, with its own title cover, in the `Deep Read` folder. Read it like any book.
    New parts are added in place without moving your page.
 4. If you ever reach the end before the next part arrives, you see
    "Writing what comes next…" until it does.

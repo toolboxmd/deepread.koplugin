@@ -5,6 +5,7 @@ local LuaSettings = require("luasettings")
 local lfs = require("libs/libkoreader-lfs")
 local util = require("util")
 
+local DeepReadCover = require("deepread_cover")
 local DeepReadMarkdown = require("deepread_markdown")
 local Zip = require("deepread_zip")
 
@@ -161,8 +162,19 @@ function Book.write(path, state)
     for i, turn in ipairs(state.turns) do
         texts[i] = turn.text
     end
-    return writeEpub(path, { title = state.topic, id = state.id },
-        DeepReadMarkdown.toXhtml(table.concat(texts, "\n\n")))
+    local title = Book.title(state)
+    -- A cover that fails to render must not cost the reader a chunk.
+    local ok, cover = pcall(DeepReadCover.png, title)
+    return writeEpub(path, { title = title, id = state.id },
+        DeepReadMarkdown.toXhtml(table.concat(texts, "\n\n")), ok and cover or nil)
+end
+
+-- The article's own heading (the first chunk opens with "# Title"), else the topic.
+function Book.title(state)
+    local first = state.turns[1] and state.turns[1].text or ""
+    local heading = first:match("^%s*#%s+([^\n]+)")
+    heading = heading and heading:gsub("[*_`]", ""):gsub("%s+$", "")
+    return heading ~= "" and heading or state.topic
 end
 
 return Book
