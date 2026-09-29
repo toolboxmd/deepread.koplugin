@@ -1,12 +1,12 @@
 -- Deep Read books on disk: the launcher, one EPUB per article, and a hidden sidecar
 -- per article holding what the service needs to continue it.
 
-local Archiver = require("ffi/archiver")
 local LuaSettings = require("luasettings")
 local lfs = require("libs/libkoreader-lfs")
 local util = require("util")
 
 local DeepReadMarkdown = require("deepread_markdown")
+local Zip = require("deepread_zip")
 
 local Book = {
     FOLDER = "Deep Read",
@@ -30,16 +30,12 @@ local CONTAINER = [[
 -- page at each chunk boundary. Written to a .tmp and renamed, so a failure never
 -- leaves a broken book behind.
 local function writeEpub(path, meta, body_html, cover_png)
-    local tmp = path .. ".tmp"
-    local epub = Archiver.Writer:new{}
-    if not epub:open(tmp, "epub") then return false end
-    local mtime = os.time()
     local title = xmlEscape(meta.title)
-    epub:setZipCompression("store")
-    epub:addFileFromMemory("mimetype", "application/epub+zip", mtime)
-    epub:setZipCompression("deflate")
-    epub:addFileFromMemory("META-INF/container.xml", CONTAINER, mtime)
-    epub:addFileFromMemory("OEBPS/content.opf", string.format([[
+    -- The mimetype entry must come first and be stored uncompressed; every entry is.
+    local entries = {
+        { "mimetype", "application/epub+zip" },
+        { "META-INF/container.xml", CONTAINER },
+        { "OEBPS/content.opf", string.format([[
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://www.idpf.org/2007/opf" xmlns:dc="http://purl.org/dc/elements/1.1/" unique-identifier="bookid" version="2.0">
   <metadata>
@@ -59,9 +55,9 @@ local function writeEpub(path, meta, body_html, cover_png)
   </spine>
 </package>
 ]], title, xmlEscape(meta.id),
-        cover_png and [[<meta name="cover" content="cover-image"/>]] or "",
-        cover_png and [[<item id="cover-image" href="cover.png" media-type="image/png"/>]] or ""), mtime)
-    epub:addFileFromMemory("OEBPS/toc.ncx", string.format([[
+            cover_png and [[<meta name="cover" content="cover-image"/>]] or "",
+            cover_png and [[<item id="cover-image" href="cover.png" media-type="image/png"/>]] or "") },
+        { "OEBPS/toc.ncx", string.format([[
 <?xml version="1.0" encoding="utf-8"?>
 <ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1">
   <head><meta name="dtb:uid" content="%s"/></head>
@@ -70,8 +66,8 @@ local function writeEpub(path, meta, body_html, cover_png)
     <navPoint id="content" playOrder="1"><navLabel><text>%s</text></navLabel><content src="content.xhtml"/></navPoint>
   </navMap>
 </ncx>
-]], xmlEscape(meta.id), title, title), mtime)
-    epub:addFileFromMemory("OEBPS/content.xhtml", string.format([[
+]], xmlEscape(meta.id), title, title) },
+        { "OEBPS/content.xhtml", string.format([[
 <?xml version="1.0" encoding="utf-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head><title>%s</title></head>
@@ -79,12 +75,20 @@ local function writeEpub(path, meta, body_html, cover_png)
 %s
 </body>
 </html>
-]], title, body_html), mtime)
+]], title, body_html) },
+    }
     if cover_png then
-        epub:setZipCompression("store")
-        epub:addFileFromMemory("OEBPS/cover.png", cover_png, mtime)
+        table.insert(entries, { "OEBPS/cover.png", cover_png })
     end
-    epub:close()
+    local tmp = path .. ".tmp"
+    local f = io.open(tmp, "wb")
+    if not f then return false end
+    local ok = f:write(Zip.build(entries))
+    f:close()
+    if not ok then
+        os.remove(tmp)
+        return false
+    end
     return os.rename(tmp, path)
 end
 

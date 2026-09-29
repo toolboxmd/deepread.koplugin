@@ -42,6 +42,11 @@ local stopped = {} -- book path -> true once the service is out of credit
 local waiting -- the "Writing what comes next…" message, while shown
 local reload_started -- {at, turns} of the reload in progress, for the timing log
 
+-- getHomeFolder() only exists in newer KOReader; this is what both releases use.
+local function homeFolder()
+    return G_reader_settings:readSetting("home_dir") or filemanagerutil.getDefaultDir()
+end
+
 -- Cut to a number of characters, not bytes, so a multibyte character is never split.
 local function truncateChars(text, max)
     local count, stop = 0, #text
@@ -84,7 +89,7 @@ function DeepRead:init()
     self.server = config.server or DEFAULT_SERVER
     -- Plugins start before the file browser lists the folder, so a fresh install shows
     -- the launcher straight away.
-    self.launcher = Book.ensureLauncher(filemanagerutil.getHomeFolder(), self.path .. "/deepread_cover.png")
+    self.launcher = Book.ensureLauncher(homeFolder(), self.path .. "/deepread_cover.png")
     self.ui.menu:registerToMainMenu(self)
 end
 
@@ -290,7 +295,7 @@ function DeepRead:fetchFirst(topic)
 
     if result then
         state.turns[1] = { text = result.text, asked = result.asked }
-        local path = Book.newArticlePath(Book.folder(filemanagerutil.getHomeFolder()), topic)
+        local path = Book.newArticlePath(Book.folder(homeFolder()), topic)
         if not Book.write(path, state) then
             UIManager:show(InfoMessage:new{ text = _("Deep Read could not save the article.") })
             return

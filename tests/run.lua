@@ -1,5 +1,5 @@
 -- Plain LuaJIT checks for the parts that do not need KOReader.
--- Usage: luajit tests/run.lua [path/to/koreader/.../lib/md.lua]
+-- Usage: luajit tests/run.lua [path/to/koreader/.../lib/md.lua] [zip-output-path]
 -- Needs lua-cjson for the JSON the real service sends.
 
 package.path = "./?.lua;" .. package.path
@@ -29,6 +29,7 @@ end
 
 local Api = require("deepread_api")
 local DeepReadMarkdown = require("deepread_markdown")
+local Zip = require("deepread_zip")
 
 local failures = 0
 local function check(name, ok, detail)
@@ -71,6 +72,18 @@ check("inline math", DeepReadMarkdown.stripMath("speed \\( v = d / t \\) here") 
 check("display math", DeepReadMarkdown.stripMath("see\n\\[\nE = mc^2\n\\]\nok") == "see\nE = mc^2\nok")
 check("two inline spans", DeepReadMarkdown.stripMath("\\(a\\) and \\(b\\)") == "a and b")
 check("leaves other backslashes", DeepReadMarkdown.stripMath("C:\\path") == "C:\\path")
+
+-- CRC-32 check value for "123456789" is 0xCBF43926, at bytes 15-18 of the local header.
+local zip = Zip.build({ { "mimetype", "123456789" } })
+check("zip starts with a local header", zip:sub(1, 4) == "PK\3\4")
+check("zip crc32", zip:sub(15, 18) == "\38\57\244\203", ("%q"):format(zip:sub(15, 18)))
+check("zip stores the data", zip:find("mimetype123456789", 1, true) == 31)
+check("zip ends with the directory end record", zip:sub(-22, -19) == "PK\5\6")
+if arg[2] then
+    local f = assert(io.open(arg[2], "wb"))
+    f:write(Zip.build({ { "mimetype", "application/epub+zip" }, { "a/b.txt", ("x"):rep(70000) } }))
+    f:close()
+end
 
 if md_path then
     local html = DeepReadMarkdown.toXhtml("# Title\n\nSome *text* with \\( x^2 \\).")

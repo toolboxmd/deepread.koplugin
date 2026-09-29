@@ -9,6 +9,8 @@ This is a KOReader client for the Deep Read service at <https://deepread.toolbox
 
 ## Install
 
+Works with KOReader v2025.04 and later (tested on v2025.04 and v2026.07.1).
+
 1. Copy the `deepread.koplugin` folder into KOReader's `plugins/` folder
    (for example `koreader/plugins/deepread.koplugin`).
 2. Restart KOReader. A `Deep Read` folder with a `Deep Read` book appears in your home
@@ -44,8 +46,8 @@ the plugin folder to point the plugin at another Deep Read server.
 
 ## Development
 
-`tests/run.lua` checks the event-stream parser and the math cleanup with plain LuaJIT,
-outside KOReader:
+`tests/run.lua` checks the event-stream parser, the math cleanup and the zip writer with
+plain LuaJIT, outside KOReader:
 
 ```sh
 luajit tests/run.lua /path/to/koreader/frontend/apps/filemanager/lib/md.lua
